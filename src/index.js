@@ -27,7 +27,7 @@ function checksExistsUserAccount(request, response, next) {
 app.post('/users', (request, response) => {
  
   const { name, username } = request.body
-  const userAlreadyExists = users.some( (users) => users.username = username )
+  const userAlreadyExists = users.some( (users) => users.username === username )
 
   if (userAlreadyExists) {
     return response.status(400).json({ error: 'Username Is Already Taken!'})
@@ -100,7 +100,7 @@ app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
  
   todo.done = true
 
-  return response.status(200).send()
+  return response.status(200).json(todo)
 });
 
 app.delete('/todos/:id', checksExistsUserAccount, (request, response) => {
@@ -115,7 +115,7 @@ app.delete('/todos/:id', checksExistsUserAccount, (request, response) => {
 
   user.todos.splice(todo, 1)
 
-  return response.status(200).json(user.todos)
+  return response.status(204).json()
 });
 
 module.exports = app;
